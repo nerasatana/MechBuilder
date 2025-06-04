@@ -28,10 +28,6 @@ function App() {
     setMode((prev) => (prev === "light" ? "dark" : "light"));
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   const mech = useSelector((state) => state.mech);
 
   const [shrink, setShrink] = useState(false);
@@ -51,7 +47,7 @@ function App() {
       <StyledHeaderWrapper ownerState={{ shrink }}>
         <Stack sx={{ width: "100%" }}>
           <StyledFlexBox>
-            <StyledImageWrapper onClick={scrollToTop}>
+            <StyledImageWrapper>
               <img src={logoImg} alt="" />
               <StyledHeaderTitle component="h1" variant="h6">
                 MechBuilder v0.1

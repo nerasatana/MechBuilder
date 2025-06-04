@@ -33,7 +33,6 @@ const StyledImageWrapper = styled(Box)({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  "&:hover": { cursor: "pointer" },
 });
 
 const StyledHeaderTitle = styled(Typography)({
