@@ -15,6 +15,7 @@ import {
   StyledSelect,
 } from "../StyledComponents";
 import { tooltips } from "../constants/tooltips.tsx";
+import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
 const HeatSinks = () => {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const HeatSinks = () => {
   }, [heatsinkNumber]);
 
   return (
-    <div id="mech-heatsinks" className="form-element">
+    <StyledContentWrapper id="mech-heatsinks" className="form-element">
       {advancedOptions && (
         <StyledFormControl component="fieldset">
           <StyledFormLabel component="legend" id="heatsink-radio-group">
@@ -108,7 +109,7 @@ const HeatSinks = () => {
           <span className="substract-tons">-{additionalHeatsinks} tons</span>
         </p>
       )}
-    </div>
+    </StyledContentWrapper>
   );
 };
 

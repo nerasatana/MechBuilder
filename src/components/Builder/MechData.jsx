@@ -1,13 +1,13 @@
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { mechActions } from "../../store/mech-slice";
 import AdvancedMechData from "../Advanced-Builder/AdvancedMechData";
-import { MenuItem, TextField, InputLabel, OutlinedInput } from "@mui/material";
+import { MenuItem, TextField, InputLabel, Stack } from "@mui/material";
 import { StyledSelect, StyledFormControl } from "../StyledComponents";
 import { useMemo } from "react";
+import { StyledContentWrapper } from "./CreateMechform.styles";
 
 const MechData = () => {
   const dispatch = useDispatch();
-
   const mechName = useSelector((state) => state.mech.name);
   const mechTonnage = useSelector((state) => state.mech.tonnage);
   const advancedOptions = useSelector((state) => state.ui.advancedOptions);
@@ -32,39 +32,40 @@ const MechData = () => {
   }, []);
 
   return (
-    <div className="mech-data form-element">
-      <TextField
-        id="mech-name-textfield"
-        name="mech-name-textfield"
-        label="Name your Mech"
-        value={mechName}
-        onChange={nameHandler}
-        variant="outlined"
-        className="name-textfield"
-      />
-      <br />
-      {advancedOptions && <AdvancedMechData />}
-      <br />
-      <StyledFormControl>
-        <InputLabel
-          id="select-mech-tonnage-label"
-          htmlFor="select-mech-tonnage-input"
-        >
-          Select Mech Tonnage
-        </InputLabel>
-        <StyledSelect
-          // labelId="select-mech-tonnage-label"
-          id="select-mech-tonnage"
-          name="select-mech-tonnage"
-          value={mechTonnage}
-          label="Select Mech Tonnage"
-          onChange={mechTonnageHandler}
-          inputProps={{ id: "select-mech-tonnage-input" }}
-        >
-          {tonnageOptions}
-        </StyledSelect>
-      </StyledFormControl>
-    </div>
+    <>
+      <StyledContentWrapper>
+        <Stack spacing={2} sx={{ maxWidth: "fit-content" }}>
+          <TextField
+            id="mech-name-textfield"
+            name="mech-name-textfield"
+            label="Name your Mech"
+            value={mechName}
+            defaultValue={mechName}
+            onChange={nameHandler}
+          />
+          {advancedOptions && <AdvancedMechData />}
+          <StyledFormControl>
+            <InputLabel
+              id="select-mech-tonnage-label"
+              htmlFor="select-mech-tonnage-input"
+            >
+              Select Mech Tonnage
+            </InputLabel>
+            <StyledSelect
+              // labelId="select-mech-tonnage-label"
+              id="select-mech-tonnage"
+              name="select-mech-tonnage"
+              value={mechTonnage}
+              label="Select Mech Tonnage"
+              onChange={mechTonnageHandler}
+              inputProps={{ id: "select-mech-tonnage-input" }}
+            >
+              {tonnageOptions}
+            </StyledSelect>
+          </StyledFormControl>
+        </Stack>
+      </StyledContentWrapper>
+    </>
   );
 };
 

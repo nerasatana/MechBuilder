@@ -5,6 +5,7 @@ import { FormControl, InputLabel, MenuItem, Tooltip } from "@mui/material";
 import { useMemo } from "react";
 import { StyledSelect } from "../StyledComponents";
 import { tooltips } from "../constants/tooltips.tsx";
+import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
 const MechReactor = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const MechReactor = () => {
   };
 
   return (
-    <div id="mech-reactor" className="form-element">
+    <StyledContentWrapper id="mech-reactor" className="form-element">
       <FormControl>
         <Tooltip title={tooltips.movement} placement="right">
           <InputLabel htmlFor="select-speed-input" id="select-speed-label">
@@ -81,7 +82,7 @@ const MechReactor = () => {
           </p>
         </>
       )}
-    </div>
+    </StyledContentWrapper>
   );
 };
 export default MechReactor;

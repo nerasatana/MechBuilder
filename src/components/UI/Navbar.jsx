@@ -1,8 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "../../store/ui-slice";
-import "./Navbar.modules.css";
 import { mechActions } from "../../store/mech-slice";
 import Button from "@mui/material/Button";
+import { Box, Stack } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan, faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
+import FinalActions from "../Builder/FinalActions";
 
 const Navbar = () => {
   const mech = useSelector((state) => state.mech);
@@ -18,23 +21,28 @@ const Navbar = () => {
   };
 
   return (
-    <nav id="navbar" className="navbar">
-      <Button
-        variant="outlined"
-        className="navbar-button"
-        onClick={handleResetMech}
-      >
-        Reset Mech
-      </Button>
-      <Button
-        variant="outlined"
-        onClick={handleAdvancedOptions}
-        className="navbar-button"
-      >
-        Advanced Options
-      </Button>
-      {ui.advancedOptions && <span id="adv-options">Advanced Options</span>}
-    </nav>
+    <Stack spacing={2} alignItems="flex-end">
+      <Stack direction="row" spacing={1} sx={{ margin: 0 }}>
+        <Button
+          variant={ui.advancedOptions ? "contained" : "outlined"}
+          startIcon={
+            <FontAwesomeIcon icon={ui.advancedOptions ? faCheck : faPlus} />
+          }
+          onClick={handleAdvancedOptions}
+        >
+          Advanced Options
+        </Button>
+        <Button
+          variant="outlined"
+          color="error"
+          startIcon={<FontAwesomeIcon icon={faTrashCan} />}
+          onClick={handleResetMech}
+        >
+          Reset Mech
+        </Button>
+      </Stack>
+      <FinalActions />
+    </Stack>
   );
 };
 

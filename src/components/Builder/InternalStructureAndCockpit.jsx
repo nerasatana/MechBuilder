@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { StyledFormControl } from "../StyledComponents";
 import { tooltips } from "../constants/tooltips.tsx";
+import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
 const InternalStructureAndCockpit = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const InternalStructureAndCockpit = () => {
   };
 
   return (
-    <div id="mech-structure" className="form-element">
+    <StyledContentWrapper id="mech-structure" className="form-element">
       {advancedOptions ? (
         <Box
           display="flex"
@@ -144,7 +145,7 @@ const InternalStructureAndCockpit = () => {
           <span className="substract-tons">-{cockpitWeight} tons</span>
         </p>
       )}
-    </div>
+    </StyledContentWrapper>
   );
 };
 

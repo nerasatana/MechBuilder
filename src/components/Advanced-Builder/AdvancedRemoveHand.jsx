@@ -11,6 +11,7 @@ import {
 import { useCallback } from "react";
 import { mechActions } from "../../store/mech-slice";
 import { tooltips } from "../constants/tooltips.tsx";
+import { StyledContentWrapper } from "../Builder/CreateMechform.styles.tsx";
 
 const AdvancedRemoveHand = () => {
   const dispatch = useDispatch();
@@ -29,88 +30,90 @@ const AdvancedRemoveHand = () => {
   );
 
   return (
-    <Grid container spacing={2}>
-      <Grid>
-        <FormControl component="fieldset" variant="standard">
-          <FormGroup>
-            <FormLabel component="legend" sx={{ color: "#ffa726" }}>
-              UnInstall Right Arm Actuators
-            </FormLabel>
-            <FormControlLabel
-              control={
-                <Tooltip
-                  title={tooltips.removingHands.handActuator}
-                  placement="top"
-                >
-                  <Checkbox
-                    id="checkbox-right-hand"
-                    checked={rarm.loc4 === "Hand Actuator"}
-                    onChange={() =>
-                      handleActuatorChange("rarm", "Hand Actuator")
-                    }
-                  />
-                </Tooltip>
-              }
-              label="Right Hand Actuator"
-            />
-            <FormControlLabel
-              control={
-                <Tooltip title={tooltips.removingHands.lowerArmActuator}>
-                  <Checkbox
-                    id="checkbox-right-lowerarm"
-                    checked={rarm.loc3 === "Lower Arm Actuator"}
-                    onChange={() =>
-                      handleActuatorChange("rarm", "Lower Arm Actuator")
-                    }
-                  />
-                </Tooltip>
-              }
-              label="Right Lower Arm Actuator"
-            />
-          </FormGroup>
-        </FormControl>
+    <StyledContentWrapper>
+      <Grid container spacing={2}>
+        <Grid>
+          <FormControl component="fieldset" variant="standard">
+            <FormGroup>
+              <FormLabel component="legend" sx={{ color: "#ffa726" }}>
+                Uninstall Right Arm Actuators
+              </FormLabel>
+              <FormControlLabel
+                control={
+                  <Tooltip
+                    title={tooltips.removingHands.handActuator}
+                    placement="top"
+                  >
+                    <Checkbox
+                      id="checkbox-right-hand"
+                      checked={rarm.loc4 === "Hand Actuator"}
+                      onChange={() =>
+                        handleActuatorChange("rarm", "Hand Actuator")
+                      }
+                    />
+                  </Tooltip>
+                }
+                label="Right Hand Actuator"
+              />
+              <FormControlLabel
+                control={
+                  <Tooltip title={tooltips.removingHands.lowerArmActuator}>
+                    <Checkbox
+                      id="checkbox-right-lowerarm"
+                      checked={rarm.loc3 === "Lower Arm Actuator"}
+                      onChange={() =>
+                        handleActuatorChange("rarm", "Lower Arm Actuator")
+                      }
+                    />
+                  </Tooltip>
+                }
+                label="Right Lower Arm Actuator"
+              />
+            </FormGroup>
+          </FormControl>
+        </Grid>
+        <Grid>
+          <FormControl component="fieldset" variant="standard">
+            <FormGroup>
+              <FormLabel component="legend" sx={{ color: "#ffa726" }}>
+                Uninstall Left Arm Actuators
+              </FormLabel>
+              <FormControlLabel
+                control={
+                  <Tooltip
+                    title={tooltips.removingHands.handActuator}
+                    placement="top"
+                  >
+                    <Checkbox
+                      id="checkbox-left-hand"
+                      checked={larm.loc4 === "Hand Actuator"}
+                      onChange={() =>
+                        handleActuatorChange("larm", "Hand Actuator")
+                      }
+                    />
+                  </Tooltip>
+                }
+                label="Left Hand Actuator"
+              />
+              <FormControlLabel
+                control={
+                  <Tooltip title={tooltips.removingHands.lowerArmActuator}>
+                    <Checkbox
+                      id="checkbox-left-lower-arm"
+                      checked={larm.loc3 === "Lower Arm Actuator"}
+                      onChange={() =>
+                        handleActuatorChange("larm", "Lower Arm Actuator")
+                      }
+                    />
+                  </Tooltip>
+                }
+                label="Left Lower Arm Actuator"
+              />
+            </FormGroup>
+          </FormControl>
+        </Grid>
       </Grid>
-      <Grid>
-        <FormControl component="fieldset" variant="standard">
-          <FormGroup>
-            <FormLabel component="legend" sx={{ color: "#ffa726" }}>
-              UnInstall Left Arm Actuators
-            </FormLabel>
-            <FormControlLabel
-              control={
-                <Tooltip
-                  title={tooltips.removingHands.handActuator}
-                  placement="top"
-                >
-                  <Checkbox
-                    id="checkbox-left-hand"
-                    checked={larm.loc4 === "Hand Actuator"}
-                    onChange={() =>
-                      handleActuatorChange("larm", "Hand Actuator")
-                    }
-                  />
-                </Tooltip>
-              }
-              label="Left Hand Actuator"
-            />
-            <FormControlLabel
-              control={
-                <Tooltip title={tooltips.removingHands.lowerArmActuator}>
-                  <Checkbox
-                    id="checkbox-left-lower-arm"
-                    checked={larm.loc3 === "Lower Arm Actuator"}
-                    onChange={() =>
-                      handleActuatorChange("larm", "Lower Arm Actuator")
-                    }
-                  />
-                </Tooltip>
-              }
-              label="Left Lower Arm Actuator"
-            />
-          </FormGroup>
-        </FormControl>
-      </Grid>
-    </Grid>
+    </StyledContentWrapper>
   );
 };
 

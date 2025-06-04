@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { mechActions } from "../../store/mech-slice";
 import { useCallback } from "react";
+import { Button, Stack } from "@mui/material";
 
 const FinalActions = () => {
   const dispatch = useDispatch();
@@ -41,21 +42,29 @@ const FinalActions = () => {
   const handleSaveMech = () => {};
 
   return (
-    <div id="final-actions">
-      <button onClick={handleAlphaStrikeStats}>Alpha Strike Stats</button>
+    <Stack direction="row" spacing={1}>
+      <Button variant="contained" onClick={handleAlphaStrikeStats}>
+        Alpha Strike Stats
+      </Button>
       {internalStructure === "Endo Steel" && (
-        <button onClick={installEndoSteelHandler}>Install EndoSteel</button>
+        <Button variant="contained" onClick={installEndoSteelHandler}>
+          Install EndoSteel
+        </Button>
       )}
       {armorType.includes("Ferro-Fibrous") && !armorSlotsInstalled && (
-        <button onClick={handleInstallArmorSlots}>
+        <Button variant="contained" onClick={handleInstallArmorSlots}>
           Install {armorType} (Slots: {armorSlots})
-        </button>
+        </Button>
       )}
       {armorSlots > 0 && (
-        <button onClick={handleRemoveArmor}>Remove ArmorSlots</button>
+        <Button variant="contained" onClick={handleRemoveArmor}>
+          Remove ArmorSlots
+        </Button>
       )}
-      <button onClick={handleSaveMech}>Save Mech</button>
-    </div>
+      <Button variant="contained" onClick={handleSaveMech}>
+        Save Mech
+      </Button>
+    </Stack>
   );
 };
 

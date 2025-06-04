@@ -1,4 +1,4 @@
-#mechTonnage {
+/* #mechTonnage {
   padding: 3px;
 }
 
@@ -37,7 +37,6 @@ select {
 }
 #tons-remaining {
   color: orange;
-  /* margin: auto; */
 }
 #critical-remaining {
   color: orange;
@@ -87,4 +86,4 @@ tr {
 }
 .tableRow:hover {
   color: orange;
-}
+} */

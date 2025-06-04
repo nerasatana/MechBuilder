@@ -13,6 +13,7 @@ import { uiActions } from "../../store/ui-slice";
 import DistributeArmor from "./DistributeArmor";
 import { StyledFormControl } from "../StyledComponents";
 import { tooltips } from "../constants/tooltips.tsx";
+import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
 const Armor = () => {
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ const Armor = () => {
   };
 
   return (
-    <div id="armor" className="form-element">
+    <StyledContentWrapper id="armor" className="form-element">
       <p>
         Armor Value: {armor.armorFactor}
         <br />
@@ -199,7 +200,7 @@ const Armor = () => {
           )}
         </div>
       )}
-    </div>
+    </StyledContentWrapper>
   );
 };
 

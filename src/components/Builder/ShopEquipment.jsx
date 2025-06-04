@@ -7,6 +7,7 @@ import equipment_Clan from "../../data/equipment_Clan/equipment_Clan";
 import AdvancedShop from "../Advanced-Builder/AdvancedShop";
 import ShopItem from "./ShopItem";
 import ShopAmmo from "./ShopAmmo";
+import { StyledContentWrapper } from "./CreateMechform.styles";
 
 const ShopEquipment = () => {
   const technologyBase = useSelector((state) => state.mech.technologyBase);
@@ -19,7 +20,7 @@ const ShopEquipment = () => {
   );
 
   return (
-    <div id="shop-equipment" className="form-element">
+    <StyledContentWrapper id="shop-equipment" className="form-element">
       <ShopAmmo />
 
       <h3>Choose Weapons</h3>
@@ -46,7 +47,7 @@ const ShopEquipment = () => {
           </tbody>
         </table>
       )}
-    </div>
+    </StyledContentWrapper>
   );
 };
 
