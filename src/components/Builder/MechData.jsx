@@ -32,40 +32,36 @@ const MechData = () => {
   }, []);
 
   return (
-    <>
-      <StyledContentWrapper>
-        <Stack spacing={2} sx={{ maxWidth: "fit-content" }}>
-          <TextField
-            id="mech-name-textfield"
-            name="mech-name-textfield"
-            label="Name your Mech"
-            value={mechName}
-            defaultValue={mechName}
-            onChange={nameHandler}
-          />
-          {advancedOptions && <AdvancedMechData />}
-          <StyledFormControl>
-            <InputLabel
-              id="select-mech-tonnage-label"
-              htmlFor="select-mech-tonnage-input"
-            >
-              Select Mech Tonnage
-            </InputLabel>
-            <StyledSelect
-              // labelId="select-mech-tonnage-label"
-              id="select-mech-tonnage"
-              name="select-mech-tonnage"
-              value={mechTonnage}
-              label="Select Mech Tonnage"
-              onChange={mechTonnageHandler}
-              inputProps={{ id: "select-mech-tonnage-input" }}
-            >
-              {tonnageOptions}
-            </StyledSelect>
-          </StyledFormControl>
-        </Stack>
-      </StyledContentWrapper>
-    </>
+    <StyledContentWrapper>
+      <Stack spacing={2} sx={{ maxWidth: "fit-content" }}>
+        <TextField
+          id="mech-name-textfield"
+          name="mech-name-textfield"
+          label="Name your Mech"
+          value={mechName}
+          onChange={nameHandler}
+        />
+        {advancedOptions && <AdvancedMechData />}
+        <StyledFormControl>
+          <InputLabel
+            id="select-mech-tonnage-label"
+            htmlFor="select-mech-tonnage-input"
+          >
+            Select Mech Tonnage
+          </InputLabel>
+          <StyledSelect
+            id="select-mech-tonnage"
+            name="select-mech-tonnage"
+            value={mechTonnage}
+            label="Select Mech Tonnage"
+            onChange={mechTonnageHandler}
+            inputProps={{ id: "select-mech-tonnage-input" }}
+          >
+            {tonnageOptions}
+          </StyledSelect>
+        </StyledFormControl>
+      </Stack>
+    </StyledContentWrapper>
   );
 };
 

@@ -45,6 +45,7 @@ export const getTheme = (mode: "light" | "dark") =>
         : {
             primary: { main: primaryColor },
             secondary: { main: "#6FB0E6", contrastText: "#ffffff" },
+            error: { main: "#ff4c4c" },
             background: { default: "#121212", paper: "#1e1e1e" },
           }),
     },

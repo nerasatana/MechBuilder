@@ -3,6 +3,7 @@ import { mechActions } from "../../store/mech-slice";
 import { StyledFormControl, StyledSelect } from "../StyledComponents";
 import { MenuItem, InputLabel, OutlinedInput, Tooltip } from "@mui/material";
 import { tooltips } from "../constants/tooltips.tsx";
+import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
 const Gyro = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const Gyro = () => {
   };
 
   return (
-    <div id="mech-gyro" className="form-element">
+    <StyledContentWrapper id="mech-gyro" className="form-element">
       {techBase === "Inner Sphere" && advancedOptions ? (
         <div>
           <StyledFormControl>
@@ -100,7 +101,7 @@ const Gyro = () => {
           <span className="substract-tons">-{gyroWeight} tons</span>
         </p>
       )}
-    </div>
+    </StyledContentWrapper>
   );
 };
 

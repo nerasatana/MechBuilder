@@ -7,6 +7,9 @@ const StyledContentWrapper = styled(Paper)(({ theme }) => ({
   borderRadius: "8px",
   display: "flex",
   flexDirection: "column",
+  "&:has( #mech-name-textfield)": {
+    alignItems: "center",
+  },
 }));
 
 export { StyledContentWrapper };

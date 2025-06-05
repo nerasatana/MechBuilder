@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
-import { mechActions } from "../../store/mech-slice";
+import { useSelector } from "react-redux";
 
 import Gyro from "./Gyro";
 import MechData from "./MechData";
@@ -14,9 +13,9 @@ import FinalActions from "./FinalActions";
 
 import "./CreateMechForm.modules.css";
 import ShopEquipment from "./ShopEquipment";
+import { Box } from "@mui/material";
 
 const CreateMechForm = () => {
-  const dispatch = useDispatch();
   const mech = useSelector((state) => state.mech);
 
   const handleSubmit = (event) => {
@@ -24,7 +23,7 @@ const CreateMechForm = () => {
   };
 
   return (
-    <div className="createForm">
+    <Box className="createForm" sx={{ width: "50%" }}>
       <form className="mechForm" action="" onSubmit={handleSubmit}>
         <MechData />
         {mech.remainingTons !== null && (
@@ -37,13 +36,10 @@ const CreateMechForm = () => {
             <Armor />
             <InstallEquipment />
             <ShopEquipment />
-            <FinalActions />
-            <RemainingTons />
-            {/* {mech.remainingTons && <></>} */}
           </div>
         )}
       </form>
-    </div>
+    </Box>
   );
 };
 

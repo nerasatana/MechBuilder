@@ -15,6 +15,7 @@ import {
   StyledSelect,
 } from "../StyledComponents";
 import { tooltips } from "../constants/tooltips.tsx";
+import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
 const JumpJets = () => {
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ const JumpJets = () => {
   };
 
   return (
-    <div id="mech-jumpjets" className="form-element">
+    <StyledContentWrapper id="mech-jumpjets" className="form-element">
       {advancedOptions && (
         <StyledFormControl component="fieldset">
           <StyledFormLabel component="legend" id="jumpjet-radio-group">
@@ -133,7 +134,7 @@ const JumpJets = () => {
           </span>
         </p>
       )}
-    </div>
+    </StyledContentWrapper>
   );
 };
 

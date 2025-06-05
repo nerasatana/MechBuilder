@@ -44,7 +44,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <StyledHeaderWrapper ownerState={{ shrink }}>
+      <StyledHeaderWrapper
+        ownerState={{ shrink }}
+        sx={{ height: !mech.remainingTons ? "80px" : "140px" }}
+      >
         <Stack sx={{ width: "100%" }}>
           <StyledFlexBox>
             <StyledImageWrapper>
@@ -60,11 +63,11 @@ function App() {
               <FontAwesomeIcon icon={mode === "light" ? faSun : faMoon} />
             </IconButton>
           </StyledFlexBox>
-          <Navbar />
+          {mech.remainingTons && <Navbar />}
         </Stack>
       </StyledHeaderWrapper>
       {/* Hint: 70px for AppBar/Header Height */}
-      <Box sx={{ padding: "180px 1rem" }}>
+      <Box sx={{ padding: mech.remainingTons ? "140px 1rem" : "80px 1rem" }}>
         <Box id="container" sx={{ display: "flex" }}>
           <CreateMechForm />
           <DisplayMech mech={mech} />

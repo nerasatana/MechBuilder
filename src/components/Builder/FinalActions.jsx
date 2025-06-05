@@ -12,7 +12,7 @@ const FinalActions = () => {
   const internalStructure = useSelector(
     (state) => state.mech.internalStructure
   );
-  const alphStrikeData = useSelector((state) => state.mech.alphStrikeData);
+  // const alphStrikeData = useSelector((state) => state.mech.alphStrikeData);
 
   const armorSlotsInstalled = Object.values(zones).some((zone) =>
     Object.values(zone).some((entry) => entry.includes("Ferro-Fibrous"))
@@ -39,8 +39,6 @@ const FinalActions = () => {
     dispatch(mechActions.removeAllArmorSlots());
   }, [dispatch]);
 
-  const handleSaveMech = () => {};
-
   return (
     <Stack direction="row" spacing={1}>
       <Button variant="contained" onClick={handleAlphaStrikeStats}>
@@ -61,9 +59,6 @@ const FinalActions = () => {
           Remove ArmorSlots
         </Button>
       )}
-      <Button variant="contained" onClick={handleSaveMech}>
-        Save Mech
-      </Button>
     </Stack>
   );
 };
