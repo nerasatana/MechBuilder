@@ -7,13 +7,15 @@ import {
   MenuItem,
   InputLabel,
   Tooltip,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  Select,
+  Stack,
+  Alert,
+  AlertTitle,
+  Typography,
 } from "@mui/material";
-import {
-  StyledFormControl,
-  StyledFormLabel,
-  StyledFormControlLabel,
-  StyledSelect,
-} from "../StyledComponents";
 import { tooltips } from "../constants/tooltips.tsx";
 import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
@@ -62,78 +64,78 @@ const JumpJets = () => {
 
   return (
     <StyledContentWrapper id="mech-jumpjets" className="form-element">
-      {advancedOptions && (
-        <StyledFormControl component="fieldset">
-          <StyledFormLabel component="legend" id="jumpjet-radio-group">
-            Choose Jumpjet Type
-          </StyledFormLabel>
-          <RadioGroup
-            row
-            id="radiogroup-jumpjet"
-            aria-labelledby="jumpjet-radio-group"
-            name="jumpjet-radio-group"
-            value={jumpJetType}
-            onChange={improvedJumpJetHandler}
+      <Stack spacing={2}>
+        {advancedOptions && (
+          <FormControl component="fieldset">
+            <FormLabel component="legend" id="jumpjet-radio-group">
+              Choose Jumpjet Type
+            </FormLabel>
+            <RadioGroup
+              row
+              id="radiogroup-jumpjet"
+              aria-labelledby="jumpjet-radio-group"
+              name="jumpjet-radio-group"
+              value={jumpJetType}
+              onChange={improvedJumpJetHandler}
+            >
+              <FormControlLabel
+                id="standard-jumpjet"
+                value="Standard"
+                control={<Radio />}
+                label={
+                  <Tooltip
+                    title={tooltips.jumpjets.standardJumpJets}
+                    placement="top"
+                    arrow
+                  >
+                    <span>Standard</span>
+                  </Tooltip>
+                }
+              />
+              <FormControlLabel
+                id="improved-jumpjet"
+                value="Improved"
+                control={<Radio />}
+                label={
+                  <Tooltip
+                    title={tooltips.jumpjets.improvedJumpJets}
+                    placement="right"
+                    arrow
+                  >
+                    <span>Improved</span>
+                  </Tooltip>
+                }
+              />
+            </RadioGroup>
+          </FormControl>
+        )}
+        <FormControl>
+          <InputLabel
+            id="select-jumpjet-label"
+            htmlFor="select-jumpjet-outlined-input"
           >
-            <StyledFormControlLabel
-              id="standard-jumpjet"
-              value="Standard"
-              control={<Radio />}
-              label={
-                <Tooltip
-                  title={tooltips.jumpjets.standardJumpJets}
-                  placement="top"
-                  arrow
-                >
-                  <span>Standard</span>
-                </Tooltip>
-              }
-            ></StyledFormControlLabel>
-            <StyledFormControlLabel
-              id="improved-jumpjet"
-              value="Improved"
-              control={<Radio />}
-              label={
-                <Tooltip
-                  title={tooltips.jumpjets.improvedJumpJets}
-                  placement="right"
-                  arrow
-                >
-                  <span>Improved</span>
-                </Tooltip>
-              }
-            ></StyledFormControlLabel>
-          </RadioGroup>
-        </StyledFormControl>
-      )}
-      <br />
-      <StyledFormControl>
-        <InputLabel
-          id="select-jumpjet-label"
-          htmlFor="select-jumpjet-outlined-input"
-        >
-          Choose Jump Capability
-        </InputLabel>
-        <StyledSelect
-          labelId="select-jumpjet-label"
-          name="select-jumpjet"
-          id="select-jumpjet"
-          value={jumping}
-          onChange={handleJumpJetSelect}
-          inputProps={{ id: "select-jumpjet-outlined-input" }}
-        >
-          {jumpOptions}
-        </StyledSelect>
-      </StyledFormControl>
+            Choose Jump Capability
+          </InputLabel>
+          <Select
+            labelId="select-jumpjet-label"
+            name="select-jumpjet"
+            id="select-jumpjet"
+            value={jumping}
+            onChange={handleJumpJetSelect}
+            inputProps={{ id: "select-jumpjet-outlined-input" }}
+            label="Choose Jump Capability"
+          >
+            {jumpOptions}
+          </Select>
+        </FormControl>
 
-      {jumping > 0 && (
-        <p>
-          Installing Jumpjets: {jumping}
-          <span className="substract-tons">
-            -{jumping * jumpJetWeight} tons
-          </span>
-        </p>
-      )}
+        {jumping > 0 && (
+          <Alert severity="info">
+            <AlertTitle>Installing Jumpjets: {jumping}</AlertTitle>
+            <Typography>-{jumping * jumpJetWeight} tons</Typography>
+          </Alert>
+        )}
+      </Stack>
     </StyledContentWrapper>
   );
 };

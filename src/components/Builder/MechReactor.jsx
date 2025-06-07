@@ -1,9 +1,18 @@
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { mechActions } from "../../store/mech-slice";
 import AdvancedMechReactor from "../Advanced-Builder/AdvancedMechReactor";
-import { FormControl, InputLabel, MenuItem, Tooltip } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Stack,
+  Tooltip,
+  Typography,
+  Select,
+} from "@mui/material";
 import { useMemo } from "react";
-import { StyledSelect } from "../StyledComponents";
 import { tooltips } from "../constants/tooltips.tsx";
 import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
@@ -45,43 +54,47 @@ const MechReactor = () => {
 
   return (
     <StyledContentWrapper id="mech-reactor" className="form-element">
-      <FormControl>
-        <Tooltip title={tooltips.movement} placement="right">
-          <InputLabel htmlFor="select-speed-input" id="select-speed-label">
-            Choose Walking Speed
-          </InputLabel>
-          <StyledSelect
-            labelId="select-speed-label"
-            id="select-speed"
-            value={walkingSpeed}
-            onChange={speedHandler}
-            inputProps={{ id: "select-speed-input" }}
-          >
-            {menuItems}
-          </StyledSelect>
-        </Tooltip>
-      </FormControl>
+      <Stack spacing={2}>
+        <FormControl sx={{ maxWidth: "200px" }}>
+          <Tooltip title={tooltips.movement} placement="right" arrow>
+            <InputLabel htmlFor="select-speed-input" id="select-speed-label">
+              Choose Walking Speed
+            </InputLabel>
+            <Select
+              labelId="select-speed-label"
+              label="Choose Walking Speed"
+              id="select-speed"
+              value={walkingSpeed}
+              onChange={speedHandler}
+              inputProps={{ id: "select-speed-input" }}
+            >
+              {menuItems}
+            </Select>
+          </Tooltip>
+        </FormControl>
 
-      {walkingSpeed > 0 && (
-        <>
-          {advancedOptions && <AdvancedMechReactor />}
-          <p>
-            Installing Reactor: {reactor.reactorType} {reactor.reactorValue}
-            <br />
-            <span className="substract-tons">
-              -
-              {reactor.reactorType === "XL"
-                ? reactor.xlTons
-                : reactor.reactorType === "Light"
-                ? reactor.light
-                : reactor.reactorType === "Compact"
-                ? reactor.compact
-                : reactor.standardTons}{" "}
-              tons
-            </span>
-          </p>
-        </>
-      )}
+        {walkingSpeed > 0 && (
+          <>
+            {advancedOptions && <AdvancedMechReactor />}
+            <Alert severity="info">
+              <AlertTitle>
+                Installing Reactor: {reactor.reactorType} {reactor.reactorValue}
+              </AlertTitle>
+              <Typography>
+                -
+                {reactor.reactorType === "XL"
+                  ? reactor.xlTons
+                  : reactor.reactorType === "Light"
+                  ? reactor.light
+                  : reactor.reactorType === "Compact"
+                  ? reactor.compact
+                  : reactor.standardTons}{" "}
+                tons
+              </Typography>
+            </Alert>
+          </>
+        )}
+      </Stack>
     </StyledContentWrapper>
   );
 };

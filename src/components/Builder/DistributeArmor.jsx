@@ -1,24 +1,17 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Tooltip, Box, Typography } from "@mui/material";
+import { Button, Tooltip, Box, Typography, Stack } from "@mui/material";
 import { mechActions } from "../../store/mech-slice";
-import { uiActions } from "../../store/ui-slice";
 import DistributeArmorSlider from "./DistributeArmorSlider";
 import DistributeArmorRearSlider from "./DistributeArmorRearSlider";
 import { tooltips } from "../constants/tooltips.tsx";
 
 const DistributeArmor = ({ maxArmor }) => {
   const dispatch = useDispatch();
-  const armorSliders = useSelector((state) => state.ui.armorSliders);
   const chassisType = useSelector((state) => state.mech.chassisType);
   const unassignedPoints = useSelector(
     (state) => state.mech.armor.unassignedPoints
   );
-  const armorWeight = useSelector((state) => state.mech.armor.armorWeight);
   const isQuad = chassisType === "Quad";
-
-  const toggleArmorSliders = () => {
-    dispatch(uiActions.toggleArmorSliders());
-  };
 
   const handleDistribute = () => {
     dispatch(mechActions.autoArmorDistribution());
@@ -34,21 +27,13 @@ const DistributeArmor = ({ maxArmor }) => {
     dispatch(mechActions.stripArmor());
   };
 
-  const hideArmorDistributionHandler = () => {
-    dispatch(uiActions.toggleArmorVisible());
-  };
-
   return (
-    <Box display="flex" flexDirection="column" gap={1}>
+    <Stack spacing={2}>
       <Box display="flex" flexWrap="wrap" gap={1} alignItems="center">
-        <Button variant="outlined" size="small" onClick={toggleArmorSliders}>
-          Enter Armor Value {armorSliders ? "manually" : "via Sliders"}
-        </Button>
-
         <Tooltip title={tooltips.armorButtons.distributeArmor} arrow>
           <span>
             <Button variant="contained" size="small" onClick={handleDistribute}>
-              Distribute Armor
+              Assign automatically
             </Button>
           </span>
         </Tooltip>
@@ -56,7 +41,7 @@ const DistributeArmor = ({ maxArmor }) => {
         <Tooltip title={tooltips.armorButtons.maxArmor} arrow>
           <span>
             <Button variant="contained" size="small" onClick={handleMaxArmor}>
-              Max Armor
+              Max. Value
             </Button>
           </span>
         </Tooltip>
@@ -64,35 +49,25 @@ const DistributeArmor = ({ maxArmor }) => {
         <Tooltip title={tooltips.armorButtons.stripArmor} arrow>
           <span>
             <Button
-              variant="contained"
+              variant="outlined"
               color="error"
               size="small"
               onClick={handleStripArmor}
             >
-              Strip Armor
+              Unassign all Armorpoints
             </Button>
           </span>
         </Tooltip>
-
-        {unassignedPoints === 0 && armorWeight > 0 && (
-          <Button
-            variant="text"
-            color="secondary"
-            size="small"
-            onClick={hideArmorDistributionHandler}
-          >
-            Hide Armor Distribution
-          </Button>
-        )}
       </Box>
       <Typography variant="body1">
         Unassigned Armorpoints:{" "}
-        <Box
+        <Typography
           component="span"
-          sx={{ color: unassignedPoints > 0 ? "#ffc404" : "#40d250" }}
+          fontWeight="bold"
+          color={unassignedPoints > 0 ? "primary" : "success"}
         >
           {unassignedPoints}
-        </Box>
+        </Typography>
       </Typography>
       <DistributeArmorSlider zone="head" />
       <DistributeArmorRearSlider zone="ctorso" rearzone="ctrear" />
@@ -108,7 +83,7 @@ const DistributeArmor = ({ maxArmor }) => {
           <DistributeArmorSlider zone="rlleg" />
         </>
       )}
-    </Box>
+    </Stack>
   );
 };
 

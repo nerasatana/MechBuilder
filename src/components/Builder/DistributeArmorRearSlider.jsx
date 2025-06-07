@@ -52,7 +52,7 @@ const DistributeArmorRearSlider = ({ zone, rearzone }) => {
   };
 
   return (
-    <Box>
+    <>
       <Typography variant="body2">
         {`Choose Armor for ${t(`zones.${zone}`)}: ${zoneArmor} / ${maxArmor}`}
       </Typography>
@@ -64,7 +64,6 @@ const DistributeArmorRearSlider = ({ zone, rearzone }) => {
         sx={{ width: 300 }}
         aria-label={`Front armor slider for ${zone}`}
       />
-
       <Typography variant="body2">
         {`Choose Armor for ${t(
           `zones.${rearzone}`
@@ -78,7 +77,7 @@ const DistributeArmorRearSlider = ({ zone, rearzone }) => {
         sx={{ width: 300 }}
         aria-label={`Rear armor slider for ${rearzone}`}
       />
-    </Box>
+    </>
   );
 };
 

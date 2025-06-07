@@ -7,12 +7,10 @@ import {
   Typography,
   Box,
   Stack,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
 } from "@mui/material";
-import {
-  StyledFormControl,
-  StyledFormLabel,
-  StyledFormControlLabel,
-} from "../StyledComponents";
 import React from "react";
 import { tooltips } from "../constants/tooltips.tsx";
 import { StyledAdvancedOptionsWrapper } from "./AdvancedMechData.styles.tsx";
@@ -45,10 +43,10 @@ const AdvancedMechData = () => {
       </Typography>
       <Stack spacing={1}>
         <Box id="tech-base-radio">
-          <StyledFormControl component="fieldset">
-            <StyledFormLabel component="legend" id="techbase-radio-group">
+          <FormControl component="fieldset">
+            <FormLabel component="legend" id="techbase-radio-group">
               <Typography>Choose Technology Base</Typography>
-            </StyledFormLabel>
+            </FormLabel>
             <RadioGroup
               row
               aria-labelledby="techbase-radio-group"
@@ -56,7 +54,7 @@ const AdvancedMechData = () => {
               onChange={handleTechBaseRadio}
               value={technologyBase}
             >
-              <StyledFormControlLabel
+              <FormControlLabel
                 value="Inner Sphere"
                 control={<Radio />}
                 label={
@@ -65,7 +63,7 @@ const AdvancedMechData = () => {
                   </Tooltip>
                 }
               />
-              <StyledFormControlLabel
+              <FormControlLabel
                 value="Clan"
                 control={<Radio />}
                 label={
@@ -75,14 +73,14 @@ const AdvancedMechData = () => {
                 }
               />
             </RadioGroup>
-          </StyledFormControl>
+          </FormControl>
         </Box>
 
         <Box id="chassis-type-radio">
-          <StyledFormControl component="fieldset">
-            <StyledFormLabel id="chassistype-radio-group" component="legend">
+          <FormControl component="fieldset">
+            <FormLabel id="chassistype-radio-group" component="legend">
               <Typography>Choose Chassis Type</Typography>
-            </StyledFormLabel>
+            </FormLabel>
             <RadioGroup
               row
               aria-labelledby="chassistype-radio-group"
@@ -90,7 +88,7 @@ const AdvancedMechData = () => {
               onChange={handleChassisTypeRadio}
               value={chassisType}
             >
-              <StyledFormControlLabel
+              <FormControlLabel
                 value="Bipedal"
                 control={<Radio />}
                 label={
@@ -99,7 +97,7 @@ const AdvancedMechData = () => {
                   </Tooltip>
                 }
               />
-              <StyledFormControlLabel
+              <FormControlLabel
                 value="Quad"
                 control={<Radio />}
                 label={
@@ -109,7 +107,7 @@ const AdvancedMechData = () => {
                 }
               />
             </RadioGroup>
-          </StyledFormControl>
+          </FormControl>
         </Box>
       </Stack>
     </StyledAdvancedOptionsWrapper>

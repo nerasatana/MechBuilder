@@ -55,6 +55,35 @@ export const getTheme = (mode: "light" | "dark") =>
     },
 
     components: {
+      MuiAlert: {
+        styleOverrides: {
+          root: {
+            borderRadius: "8px",
+            alignItems: "center",
+          },
+        },
+      },
+      MuiFormControl: {
+        styleOverrides: {
+          root: {
+            width: "240px",
+          },
+        },
+      },
+      MuiSelect: {
+        styleOverrides: {
+          root: {
+            width: "240px",
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: "8px",
+          },
+        },
+      },
       MuiOutlinedInput: {
         styleOverrides: {
           root: {
@@ -93,6 +122,27 @@ export const getTheme = (mode: "light" | "dark") =>
         styleOverrides: {
           tooltip: {
             fontSize: "0.75rem",
+          },
+        },
+      },
+      MuiMenu: {
+        defaultProps: {
+          disableScrollLock: true,
+        },
+      },
+      MuiPopover: {
+        styleOverrides: {
+          root: {
+            " .MuiPaper-root": {
+              borderRadius: "8px",
+              "& .MuiList-root": {
+                padding: "0.5rem",
+                maxHeight: "300px",
+                "& .MuiMenuItem-root": {
+                  borderRadius: "8px",
+                },
+              },
+            },
           },
         },
       },

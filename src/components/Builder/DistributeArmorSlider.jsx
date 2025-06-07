@@ -30,7 +30,7 @@ const DistributeArmorSlider = ({ zone }) => {
   };
 
   return (
-    <Box>
+    <>
       <Typography variant="body2">
         {`Choose Armor for ${t(`zones.${zone}`)}: ${zoneArmor} / ${maxArmor}`}
       </Typography>
@@ -40,9 +40,9 @@ const DistributeArmorSlider = ({ zone }) => {
         max={maxArmor}
         onChange={handleSliderChange}
         aria-labelledby={`armor-slider-${zone}`}
-        sx={{ width: 300 }}
+        sx={{ margin: "0 !important" }}
       />
-    </Box>
+    </>
   );
 };
 

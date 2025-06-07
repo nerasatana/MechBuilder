@@ -39,7 +39,7 @@ const AdvancedMechReactor = () => {
 
   return (
     <div id="advanced-mech-reactor">
-      <FormControl sx={{ m: 1, minWidth: 150 }}>
+      <FormControl>
         <InputLabel htmlFor="select-reactor-input" id="select-reactor-label">
           Choose Reactor
         </InputLabel>
@@ -49,6 +49,7 @@ const AdvancedMechReactor = () => {
           value={reactorType}
           onChange={handleReactorSelect}
           inputProps={{ id: "select-reactor-input" }}
+          label="Choose Reactor"
         >
           <MenuItem id="standard-reactor" value="Standard">
             <Tooltip title={tooltips.reactor.standard} arrow placement="right">

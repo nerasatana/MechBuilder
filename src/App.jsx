@@ -21,7 +21,7 @@ import {
 import { useEffect } from "react";
 
 function App() {
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState("dark");
   const theme = getTheme(mode);
 
   const toggleMode = () => {
@@ -67,7 +67,11 @@ function App() {
         </Stack>
       </StyledHeaderWrapper>
       {/* Hint: 70px for AppBar/Header Height */}
-      <Box sx={{ padding: mech.remainingTons ? "140px 1rem" : "80px 1rem" }}>
+      <Box
+        sx={{
+          padding: mech.remainingTons ? "140px 1rem" : "80px 1rem",
+        }}
+      >
         <Box id="container" sx={{ display: "flex" }}>
           <CreateMechForm />
           <DisplayMech mech={mech} />

@@ -1,7 +1,17 @@
 import { useSelector, useDispatch } from "react-redux";
 import { mechActions } from "../../store/mech-slice";
-import { StyledFormControl, StyledSelect } from "../StyledComponents";
-import { MenuItem, InputLabel, OutlinedInput, Tooltip } from "@mui/material";
+import {
+  MenuItem,
+  InputLabel,
+  OutlinedInput,
+  Tooltip,
+  Alert,
+  AlertTitle,
+  Typography,
+  Box,
+  FormControl,
+  Select,
+} from "@mui/material";
 import { tooltips } from "../constants/tooltips.tsx";
 import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
@@ -38,15 +48,15 @@ const Gyro = () => {
   return (
     <StyledContentWrapper id="mech-gyro" className="form-element">
       {techBase === "Inner Sphere" && advancedOptions ? (
-        <div>
-          <StyledFormControl>
+        <Box display="flex" justifyContent="space-between">
+          <FormControl>
             <InputLabel
               htmlFor="select-gyro-outlined-input"
               id="select-gyro-label"
             >
               Choose Gyro
             </InputLabel>
-            <StyledSelect
+            <Select
               labelId="select-gyro-label"
               id="select-gyro"
               value={gyroType}
@@ -91,15 +101,17 @@ const Gyro = () => {
                   Extra-Light
                 </Tooltip>
               </MenuItem>
-            </StyledSelect>
-          </StyledFormControl>
-          <span className="substract-tons">-{gyroWeight} tons</span>
-        </div>
+            </Select>
+          </FormControl>
+          <Alert severity="info" className="substract-tons">
+            <Typography>-{gyroWeight} tons</Typography>
+          </Alert>
+        </Box>
       ) : (
-        <p>
-          Installing Gyro:
-          <span className="substract-tons">-{gyroWeight} tons</span>
-        </p>
+        <Alert severity="info">
+          <AlertTitle>Installing Gyro:</AlertTitle>
+          <Typography className="substract-tons">-{gyroWeight} tons</Typography>
+        </Alert>
       )}
     </StyledContentWrapper>
   );

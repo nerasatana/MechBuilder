@@ -7,13 +7,19 @@ import {
   InputLabel,
   Slider,
   Tooltip,
+  FormControl,
+  Typography,
+  Button,
+  Stack,
+  Alert,
 } from "@mui/material";
 import { mechActions } from "../../store/mech-slice";
 import { uiActions } from "../../store/ui-slice";
 import DistributeArmor from "./DistributeArmor";
-import { StyledFormControl } from "../StyledComponents";
 import { tooltips } from "../constants/tooltips.tsx";
 import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShield, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 
 const Armor = () => {
   const dispatch = useDispatch();
@@ -77,89 +83,104 @@ const Armor = () => {
 
   return (
     <StyledContentWrapper id="armor" className="form-element">
-      <p>
-        Armor Value: {armor.armorFactor}
-        <br />
-        Armor Weight: {armor.armorWeight} tons{" "}
-        {armor.armorWeight > 0 && (
-          <span className="substract-tons">-{armor.armorWeight} tons</span>
-        )}
-        {!armorVisible && (
-          <button type="button" onClick={toggleArmorVisible}>
-            Show Armor
-          </button>
-        )}
-      </p>
-
-      {advancedOptions && (
-        <Box
+      <Stack spacing={2}>
+        <Stack
+          direction="row"
           display="flex"
-          alignItems="center"
           justifyContent="space-between"
-          width="400px"
+          alignItems="center"
         >
-          <StyledFormControl>
-            <InputLabel id="select-armor-type-label">
-              Choose Armor Type
-            </InputLabel>
-            <Select
-              labelId="select-armor-type-label"
-              id="select-armor-type"
-              value={armor.armorType}
-              label="Choose Armor Type"
-              onChange={handleArmorTypeSelect}
-            >
-              <MenuItem key="standard-armor" value="Standard">
-                <Tooltip
-                  title={tooltips.armor.standard}
-                  arrow
-                  placement="right"
-                >
-                  Standard Armor
-                </Tooltip>
-              </MenuItem>
-              <MenuItem key="ferro-fibrous-armor" value="Ferro-Fibrous">
-                <Tooltip
-                  title={tooltips.armor.ferroFibrous(
-                    armorMultiplier,
-                    ferroFibrousSlots
-                  )}
-                  arrow
-                  placement="right"
-                >
-                  Ferro-Fibrous
-                </Tooltip>
-              </MenuItem>
-              {techBase === "Inner Sphere" && [
-                <MenuItem key="light-armor" value="Light Ferro-Fibrous">
-                  <Tooltip title={tooltips.armor.light} arrow placement="right">
-                    Light Ferro-Fibrous
-                  </Tooltip>
-                </MenuItem>,
-                <MenuItem key="heavy-armor" value="Heavy Ferro-Fibrous">
-                  <Tooltip title={tooltips.armor.heavy} arrow placement="right">
-                    Heavy Ferro-Fibrous
-                  </Tooltip>
-                </MenuItem>,
-                <MenuItem key="stealth" value="Stealth Armor">
+          <Box>
+            <Typography>Armor Value: {armor.armorFactor}</Typography>
+            <Typography>Armor Weight: {armor.armorWeight} tons</Typography>
+          </Box>
+          {armor.armorWeight > 0 && (
+            <Alert severity="info">-{armor.armorWeight} tons</Alert>
+          )}
+        </Stack>
+        {advancedOptions && (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <FormControl>
+              <InputLabel id="select-armor-type-label">
+                Choose Armor Type
+              </InputLabel>
+              <Select
+                labelId="select-armor-type-label"
+                id="select-armor-type"
+                value={armor.armorType}
+                label="Choose Armor Type"
+                onChange={handleArmorTypeSelect}
+              >
+                <MenuItem key="standard-armor" value="Standard">
                   <Tooltip
-                    title={tooltips.armor.stealth}
+                    title={tooltips.armor.standard}
                     arrow
                     placement="right"
                   >
-                    Stealth Armor
+                    Standard Armor
                   </Tooltip>
-                </MenuItem>,
-              ]}
-            </Select>
-          </StyledFormControl>
-        </Box>
-      )}
-
-      {armorVisible && (
-        <div id="armor-distribution">
-          <Box mt={2}>
-            <p>Choose Armor by Points:</p>
+                </MenuItem>
+                <MenuItem key="ferro-fibrous-armor" value="Ferro-Fibrous">
+                  <Tooltip
+                    title={tooltips.armor.ferroFibrous(
+                      armorMultiplier,
+                      ferroFibrousSlots
+                    )}
+                    arrow
+                    placement="right"
+                  >
+                    Ferro-Fibrous
+                  </Tooltip>
+                </MenuItem>
+                {techBase === "Inner Sphere" && [
+                  <MenuItem key="light-armor" value="Light Ferro-Fibrous">
+                    <Tooltip
+                      title={tooltips.armor.light}
+                      arrow
+                      placement="right"
+                    >
+                      Light Ferro-Fibrous
+                    </Tooltip>
+                  </MenuItem>,
+                  <MenuItem key="heavy-armor" value="Heavy Ferro-Fibrous">
+                    <Tooltip
+                      title={tooltips.armor.heavy}
+                      arrow
+                      placement="right"
+                    >
+                      Heavy Ferro-Fibrous
+                    </Tooltip>
+                  </MenuItem>,
+                  <MenuItem key="stealth" value="Stealth Armor">
+                    <Tooltip
+                      title={tooltips.armor.stealth}
+                      arrow
+                      placement="right"
+                    >
+                      Stealth Armor
+                    </Tooltip>
+                  </MenuItem>,
+                ]}
+              </Select>
+            </FormControl>
+          </Box>
+        )}
+        <Button
+          variant="contained"
+          onClick={toggleArmorVisible}
+          startIcon={
+            <FontAwesomeIcon icon={armorVisible ? faShield : faShieldHalved} />
+          }
+        >
+          {armorVisible ? "Hide Armor" : "Show Armor"}
+        </Button>
+        {armorVisible && (
+          <Stack spacing={2}>
+            <Typography>Choose Armor by Points:</Typography>
             <Slider
               min={0}
               max={maxArmor}
@@ -167,13 +188,10 @@ const Armor = () => {
               value={armor.armorFactor}
               onChange={handleArmorSlider}
               aria-label="Armor Points"
-              sx={{ width: 300 }}
+              valueLabelDisplay="auto"
             />
-            {maxArmor}
-          </Box>
-
-          <Box mt={2}>
-            <StyledFormControl>
+            <Typography>Maximum available Armor: {maxArmor}</Typography>
+            <FormControl>
               <InputLabel id="armor-tons-select-label">
                 Choose Armor by Tons
               </InputLabel>
@@ -190,16 +208,15 @@ const Armor = () => {
                   </MenuItem>
                 ))}
               </Select>
-            </StyledFormControl>
-          </Box>
-
-          {armor.armorFactor > 0 && (
-            <DistributeArmor
-              maxArmor={armorOptionsStandard[armorOptionsStandard.length - 1]}
-            />
-          )}
-        </div>
-      )}
+            </FormControl>
+            {armor.armorFactor > 0 && (
+              <DistributeArmor
+                maxArmor={armorOptionsStandard[armorOptionsStandard.length - 1]}
+              />
+            )}
+          </Stack>
+        )}
+      </Stack>
     </StyledContentWrapper>
   );
 };

@@ -1,8 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
 import { mechActions } from "../../store/mech-slice";
 import AdvancedMechData from "../Advanced-Builder/AdvancedMechData";
-import { MenuItem, TextField, InputLabel, Stack } from "@mui/material";
-import { StyledSelect, StyledFormControl } from "../StyledComponents";
+import {
+  MenuItem,
+  TextField,
+  InputLabel,
+  Stack,
+  FormControl,
+  Select,
+} from "@mui/material";
 import { useMemo } from "react";
 import { StyledContentWrapper } from "./CreateMechform.styles";
 
@@ -40,26 +46,28 @@ const MechData = () => {
           label="Name your Mech"
           value={mechName}
           onChange={nameHandler}
+          sx={{ width: "unset" }}
         />
         {advancedOptions && <AdvancedMechData />}
-        <StyledFormControl>
+        <FormControl sx={{ width: "unset" }}>
           <InputLabel
             id="select-mech-tonnage-label"
             htmlFor="select-mech-tonnage-input"
           >
             Select Mech Tonnage
           </InputLabel>
-          <StyledSelect
+          <Select
             id="select-mech-tonnage"
             name="select-mech-tonnage"
             value={mechTonnage}
             label="Select Mech Tonnage"
             onChange={mechTonnageHandler}
             inputProps={{ id: "select-mech-tonnage-input" }}
+            sx={{ width: "unset" }}
           >
             {tonnageOptions}
-          </StyledSelect>
-        </StyledFormControl>
+          </Select>
+        </FormControl>
       </Stack>
     </StyledContentWrapper>
   );

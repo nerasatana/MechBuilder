@@ -7,13 +7,15 @@ import {
   InputLabel,
   MenuItem,
   Tooltip,
+  Select,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  Stack,
+  Alert,
+  AlertTitle,
+  Typography,
 } from "@mui/material";
-import {
-  StyledFormControl,
-  StyledFormLabel,
-  StyledFormControlLabel,
-  StyledSelect,
-} from "../StyledComponents";
 import { tooltips } from "../constants/tooltips.tsx";
 import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
@@ -49,66 +51,69 @@ const HeatSinks = () => {
 
   return (
     <StyledContentWrapper id="mech-heatsinks" className="form-element">
-      {advancedOptions && (
-        <StyledFormControl component="fieldset">
-          <StyledFormLabel component="legend" id="heatsink-radio-group">
-            Choose Heatsink Type
-          </StyledFormLabel>
-
-          <RadioGroup
-            row
-            aria-labelledby="heatsink-radio-group"
-            name="heatsink-radio-group"
-            onChange={handleHeatsinkTypeChange}
-            value={heatsinkType}
+      <Stack spacing={2}>
+        {advancedOptions && (
+          <FormControl component="fieldset">
+            <FormLabel component="legend" id="heatsink-radio-group">
+              Choose Heatsink Type
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="heatsink-radio-group"
+              name="heatsink-radio-group"
+              onChange={handleHeatsinkTypeChange}
+              value={heatsinkType}
+            >
+              <FormControlLabel
+                value="standard"
+                control={<Radio />}
+                label={
+                  <Tooltip title={tooltips.heatsinks.standard}>
+                    <span>Standard</span>
+                  </Tooltip>
+                }
+              />
+              <FormControlLabel
+                value="double"
+                control={<Radio />}
+                label={
+                  <Tooltip title={tooltips.heatsinks.double(heatsinkSlots)}>
+                    <span>Double</span>
+                  </Tooltip>
+                }
+              />
+            </RadioGroup>
+          </FormControl>
+        )}
+        <FormControl>
+          <InputLabel
+            htmlFor="select-additional-heatsinks-input"
+            id="select-additional-heatsinks-label"
           >
-            <StyledFormControlLabel
-              value="standard"
-              control={<Radio />}
-              label={
-                <Tooltip title={tooltips.heatsinks.standard}>
-                  <span>Standard</span>
-                </Tooltip>
-              }
-            />
-            <StyledFormControlLabel
-              value="double"
-              control={<Radio />}
-              label={
-                <Tooltip title={tooltips.heatsinks.double(heatsinkSlots)}>
-                  <span>Double</span>
-                </Tooltip>
-              }
-            />
-          </RadioGroup>
-        </StyledFormControl>
-      )}
-      <br></br>
-      <StyledFormControl>
-        <InputLabel
-          htmlFor="select-additional-heatsinks-input"
-          id="select-additional-heatsinks-label"
-        >
-          Choose Additional Heatsinks
-        </InputLabel>
-        <StyledSelect
-          labelId="select-additional-heatsinks-label"
-          name="heatsink-select"
-          id="heatsink-select"
-          inputProps={{ id: "select-additional-heatsinks-input" }}
-          onChange={handleHeatSinkChange}
-          value={heatsinkNumber - 10}
-        >
-          {heatSinkOptions}
-        </StyledSelect>
-      </StyledFormControl>
+            Choose Additional Heatsinks
+          </InputLabel>
+          <Select
+            labelId="select-additional-heatsinks-label"
+            name="heatsink-select"
+            id="heatsink-select"
+            inputProps={{ id: "select-additional-heatsinks-input" }}
+            onChange={handleHeatSinkChange}
+            value={heatsinkNumber - 10}
+            label="Choose Additional Heatsinks"
+          >
+            {heatSinkOptions}
+          </Select>
+        </FormControl>
 
-      {additionalHeatsinks > 0 && (
-        <p>
-          Installing {additionalHeatsinks} additional Heatsinks:
-          <span className="substract-tons">-{additionalHeatsinks} tons</span>
-        </p>
-      )}
+        {additionalHeatsinks > 0 && (
+          <Alert severity="info">
+            <AlertTitle>
+              Installing {additionalHeatsinks} additional Heatsinks:
+            </AlertTitle>
+            <Typography>-{additionalHeatsinks} tons</Typography>
+          </Alert>
+        )}
+      </Stack>
     </StyledContentWrapper>
   );
 };

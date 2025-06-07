@@ -7,8 +7,10 @@ import {
   Select,
   Box,
   Tooltip,
+  Alert,
+  Typography,
+  AlertTitle,
 } from "@mui/material";
-import { StyledFormControl } from "../StyledComponents";
 import { tooltips } from "../constants/tooltips.tsx";
 import { StyledContentWrapper } from "./CreateMechform.styles.tsx";
 
@@ -47,13 +49,8 @@ const InternalStructureAndCockpit = () => {
   return (
     <StyledContentWrapper id="mech-structure" className="form-element">
       {advancedOptions ? (
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          width="300px"
-        >
-          <StyledFormControl>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <FormControl>
             <InputLabel
               id="select-internal-label"
               htmlFor="select-internal-input"
@@ -61,13 +58,23 @@ const InternalStructureAndCockpit = () => {
               Select Internal Structure
             </InputLabel>
             <Select
+              autoWidth
               labelId="select-internal-label"
               id="select-internal"
               label="Select Internal Structure"
               value={internalStructure}
               onChange={internalStructureHandler}
-              style={{ minWidth: 120 }}
               inputProps={{ id: "select-internal-input" }}
+              MenuProps={{
+                anchorOrigin: {
+                  vertical: "bottom",
+                  horizontal: "left",
+                },
+                transformOrigin: {
+                  vertical: "top",
+                  horizontal: "left",
+                },
+              }}
             >
               <MenuItem id="Standard" value="Standard">
                 <Tooltip
@@ -78,7 +85,6 @@ const InternalStructureAndCockpit = () => {
                   Standard
                 </Tooltip>
               </MenuItem>
-
               <MenuItem id="Endo Steel" value="Endo Steel">
                 <Tooltip
                   title={tooltips.internalStructure.endoSteel(endoSteelSlots)}
@@ -88,14 +94,18 @@ const InternalStructureAndCockpit = () => {
                 </Tooltip>
               </MenuItem>
             </Select>
-          </StyledFormControl>
-          <span className="substract-tons">-{internalTons} tons</span>
+          </FormControl>
+          <Alert severity="info">
+            <Typography>-{internalTons} tons</Typography>
+          </Alert>
         </Box>
       ) : (
-        <p>
-          Internal Structure: {internalStructure}{" "}
-          <span className="substract-tons">-{internalTons} tons</span>
-        </p>
+        <Alert severity="info">
+          <AlertTitle>Internal Structure: {internalStructure}</AlertTitle>
+          <Typography className="substract-tons">
+            -{internalTons} tons
+          </Typography>
+        </Alert>
       )}
 
       {advancedOptions && techBase === "Inner Sphere" ? (
@@ -103,9 +113,9 @@ const InternalStructureAndCockpit = () => {
           display="flex"
           alignItems="center"
           justifyContent="space-between"
-          width="300px"
+          marginTop="1.5rem"
         >
-          <FormControl sx={{ m: 1, minWidth: 180 }}>
+          <FormControl>
             <InputLabel
               id="select-cockpit-label"
               htmlFor="select-cockpit-input"
@@ -118,7 +128,6 @@ const InternalStructureAndCockpit = () => {
               label="Select Cockpit"
               value={cockpitType}
               onChange={cockpitHandler}
-              style={{ minWidth: 120 }}
               inputProps={{ id: "select-cockpit-input" }}
             >
               <MenuItem id="standard-cockpit" value="Standard Cockpit">
@@ -137,13 +146,17 @@ const InternalStructureAndCockpit = () => {
               </MenuItem>
             </Select>
           </FormControl>
-          <span className="substract-tons">-{cockpitWeight} tons</span>
+          <Alert severity="info">
+            <Typography>-{cockpitWeight} tons</Typography>
+          </Alert>
         </Box>
       ) : (
-        <p>
-          {cockpitType}:{" "}
-          <span className="substract-tons">-{cockpitWeight} tons</span>
-        </p>
+        <Alert severity="info">
+          <AlertTitle>{cockpitType}:</AlertTitle>
+          <Typography className="substract-tons">
+            -{cockpitWeight} tons
+          </Typography>
+        </Alert>
       )}
     </StyledContentWrapper>
   );
