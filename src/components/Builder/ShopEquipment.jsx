@@ -8,11 +8,21 @@ import AdvancedShop from "../Advanced-Builder/AdvancedShop";
 import ShopItem from "./ShopItem";
 import ShopAmmo from "./ShopAmmo";
 import { StyledContentWrapper } from "./CreateMechform.styles";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+  useTheme,
+} from "@mui/material";
 
 const ShopEquipment = () => {
   const technologyBase = useSelector((state) => state.mech.technologyBase);
   const criticalSlots = useSelector((state) => state.mech.criticalSlots);
   const advancedOptions = useSelector((state) => state.ui.advancedOptions);
+  const theme = useTheme();
 
   const filteredEquipment = useMemo(
     () => equipment_lvl1.filter((item) => item.critical <= criticalSlots),
@@ -20,10 +30,16 @@ const ShopEquipment = () => {
   );
 
   return (
-    <StyledContentWrapper id="shop-equipment" className="form-element">
+    <StyledContentWrapper
+      id="shop-equipment"
+      className="form-element"
+      sx={{ maxHeight: "800px", overflow: "auto" }}
+    >
       <ShopAmmo />
 
-      <h3>Choose Weapons</h3>
+      <Typography variant="h6" component="h3">
+        Choose Weapons
+      </Typography>
       {advancedOptions ? (
         <AdvancedShop
           equipmentList={
@@ -31,21 +47,25 @@ const ShopEquipment = () => {
           }
         />
       ) : (
-        <table id="shop-table">
-          <thead>
-            <tr>
-              <th>Weapon</th>
-              <th>Tons</th>
-              <th>Critical</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table id="shop-table">
+          <TableHead
+            sx={{
+              "& .MuiTableCell-head": { color: theme.palette.primary.main },
+            }}
+          >
+            <TableRow>
+              <TableCell>Weapon</TableCell>
+              <TableCell>Tons</TableCell>
+              <TableCell>Critical</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {filteredEquipment.map((item) => (
               <ShopItem item={item} key={item.name} />
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       )}
     </StyledContentWrapper>
   );

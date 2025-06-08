@@ -1,5 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { mechActions } from "../../store/mech-slice";
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSquareMinus, faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 
 const ShopAmmo = () => {
   const dispatch = useDispatch();
@@ -41,18 +55,18 @@ const ShopAmmo = () => {
   return (
     <div>
       {mechHasAmmoWeapons && (
-        <>
-          <h4>Ammo</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>Weapon</th>
-                <th>Ammo/Ton</th>
-                <th>Rounds</th>
-                <th>Current Ammo</th>
-              </tr>
-            </thead>
-            <tbody>
+        <Alert severity="info" sx={{ marginBottom: "1rem" }}>
+          <AlertTitle>Ammo</AlertTitle>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Weapon</TableCell>
+                <TableCell>Ammo/Ton</TableCell>
+                <TableCell>Rounds</TableCell>
+                <TableCell>Current Ammo</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
               {groupedWeaponsArray.map((weapon) => {
                 let ammoTons = 0;
                 equipment.ammo.forEach((ammo) => {
@@ -62,29 +76,37 @@ const ShopAmmo = () => {
                 });
 
                 return (
-                  <tr key={`ammo${weapon.id}`}>
-                    <td>
+                  <TableRow key={`ammo${weapon.id}`}>
+                    <TableCell>
                       {weapon.number} {weapon.name}
-                    </td>
-                    <td>{weapon.ammo}</td>
-                    <td>{Number(weapon.ammo) * Number(ammoTons)}</td>
-                    <td>
-                      {ammoTons > 0.5 && (
-                        <button onClick={() => handleRemoveAmmo(weapon)}>
-                          -
-                        </button>
-                      )}
-                      {ammoTons}
-                      {criticalSlots > 0 && remainingTons > 0 && (
-                        <button onClick={() => handleAddAmmo(weapon)}>+</button>
-                      )}
-                    </td>
-                  </tr>
+                    </TableCell>
+                    <TableCell>{weapon.ammo}</TableCell>
+                    <TableCell>
+                      {Number(weapon.ammo) * Number(ammoTons)}
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        onClick={() => handleRemoveAmmo(weapon)}
+                        disabled={!ammoTons > 0.5}
+                      >
+                        <FontAwesomeIcon icon={faSquareMinus} />
+                      </IconButton>
+                      <Typography component="span" sx={{ margin: "0 0.5rem" }}>
+                        {ammoTons}
+                      </Typography>
+                      <IconButton
+                        onClick={() => handleAddAmmo(weapon)}
+                        disabled={!criticalSlots > 0 && !remainingTons > 0}
+                      >
+                        <FontAwesomeIcon icon={faSquarePlus} />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
                 );
               })}
-            </tbody>
-          </table>
-        </>
+            </TableBody>
+          </Table>
+        </Alert>
       )}
     </div>
   );

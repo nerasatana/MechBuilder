@@ -1,23 +1,28 @@
 import { mechActions } from "../../store/mech-slice";
 import { useDispatch } from "react-redux";
 import React from "react";
-import { Tooltip, Typography, Box } from "@mui/material";
+import {
+  Tooltip,
+  Typography,
+  Box,
+  TableRow,
+  TableCell,
+  Button,
+  Paper,
+  useTheme,
+  alpha,
+} from "@mui/material";
 import { Highlight } from "../constants/tooltips";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const ShopItem = ({ item }) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const itemTooltip = (
-    <Box sx={{ p: 1 }}>
-      <Box
-        sx={{
-          backgroundColor: "grey.300",
-          borderRadius: 1,
-          px: 1,
-          py: 0.5,
-          mb: 1,
-        }}
-      >
+    <Box sx={{ padding: 1 }}>
+      <Paper sx={{ padding: "0.5rem" }}>
         <Typography variant="subtitle2" fontWeight="bold">
           {item.name}
         </Typography>
@@ -25,7 +30,7 @@ const ShopItem = ({ item }) => {
           Tons: <Highlight>{item.tons}</Highlight> | Crits:{" "}
           <Highlight>{item.critical}</Highlight>
         </Typography>
-      </Box>
+      </Paper>
 
       <Typography variant="body2">
         Category: <Highlight>{item.category}</Highlight>
@@ -38,7 +43,7 @@ const ShopItem = ({ item }) => {
       )}
       {item.category !== "Special Equipment" && (
         <>
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{ display: "flex", gap: 1 }}>
             <Typography variant="body2">
               Heat: <Highlight>{item.heat}</Highlight>
             </Typography>
@@ -53,7 +58,7 @@ const ShopItem = ({ item }) => {
             {item.minimal !== "-" && (
               <>
                 {" "}
-                Min.: <Highlight>{item.minimal} </Highlight>
+                Min.: <Highlight>{item.minimal}</Highlight>
               </>
             )}{" "}
             Short: <Highlight>{item.range[0]} </Highlight>Medium:{" "}
@@ -74,15 +79,26 @@ const ShopItem = ({ item }) => {
   };
 
   return (
-    <Tooltip title={itemTooltip} placement="top">
-      <tr>
-        <td>{item.name}</td>
-        <td>{item.tons}</td>
-        <td>{item.critical}</td>
-        <td>
-          <button onClick={handleAddItem}>Add</button>
-        </td>
-      </tr>
+    <Tooltip title={itemTooltip} placement="top" arrow>
+      <TableRow
+        sx={{
+          "&:hover": { background: alpha(theme.palette.primary.light, 0.1) },
+        }}
+      >
+        <TableCell>{item.name}</TableCell>
+        <TableCell>{item.tons}</TableCell>
+        <TableCell>{item.critical}</TableCell>
+        <TableCell>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={handleAddItem}
+            startIcon={<FontAwesomeIcon icon={faPlus} />}
+          >
+            Add
+          </Button>
+        </TableCell>
+      </TableRow>
     </Tooltip>
   );
 };

@@ -12,4 +12,16 @@ const StyledContentWrapper = styled(Paper)(({ theme }) => ({
   },
 }));
 
-export { StyledContentWrapper };
+const StyledSecondaryContentWrapper = styled(Paper)(({ theme }) => ({
+  marginTop: "1rem",
+  padding: "1.5rem",
+  border: `1.5px solid ${theme.palette.secondary.main}`,
+  borderRadius: "8px",
+  display: "flex",
+  flexDirection: "column",
+  "&:has( #mech-name-textfield)": {
+    alignItems: "center",
+  },
+}));
+
+export { StyledContentWrapper, StyledSecondaryContentWrapper };

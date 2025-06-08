@@ -69,20 +69,22 @@ const DistributeArmor = ({ maxArmor }) => {
           {unassignedPoints}
         </Typography>
       </Typography>
-      <DistributeArmorSlider zone="head" />
-      <DistributeArmorRearSlider zone="ctorso" rearzone="ctrear" />
-      <DistributeArmorRearSlider zone="rltorso" rearzone="rltrear" />
-      {isQuad ? (
-        <>
-          <DistributeArmorSlider zone="frlleg" />
-          <DistributeArmorSlider zone="rrlleg" />
-        </>
-      ) : (
-        <>
-          <DistributeArmorSlider zone="rlarm" />
-          <DistributeArmorSlider zone="rlleg" />
-        </>
-      )}
+      <Stack spacing={3}>
+        <DistributeArmorSlider zone="head" />
+        <DistributeArmorRearSlider zone="ctorso" rearzone="ctrear" />
+        <DistributeArmorRearSlider zone="rltorso" rearzone="rltrear" />
+        {isQuad ? (
+          <>
+            <DistributeArmorSlider zone="frlleg" />
+            <DistributeArmorSlider zone="rrlleg" />
+          </>
+        ) : (
+          <>
+            <DistributeArmorSlider zone="rlarm" />
+            <DistributeArmorSlider zone="rlleg" />
+          </>
+        )}
+      </Stack>
     </Stack>
   );
 };

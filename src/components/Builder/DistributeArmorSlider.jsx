@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { mechActions } from "../../store/mech-slice";
 import React from "react";
-import { Box, Typography, Slider } from "@mui/material";
+import { Box, Typography, Slider, Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 const DistributeArmorSlider = ({ zone }) => {
@@ -30,7 +30,7 @@ const DistributeArmorSlider = ({ zone }) => {
   };
 
   return (
-    <>
+    <Stack>
       <Typography variant="body2">
         {`Choose Armor for ${t(`zones.${zone}`)}: ${zoneArmor} / ${maxArmor}`}
       </Typography>
@@ -40,9 +40,9 @@ const DistributeArmorSlider = ({ zone }) => {
         max={maxArmor}
         onChange={handleSliderChange}
         aria-labelledby={`armor-slider-${zone}`}
-        sx={{ margin: "0 !important" }}
+        marks={[...Array(maxArmor + 1)].map((_, i) => ({ value: i, label: i }))}
       />
-    </>
+    </Stack>
   );
 };
 

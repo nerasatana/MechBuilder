@@ -52,32 +52,42 @@ const DistributeArmorRearSlider = ({ zone, rearzone }) => {
   };
 
   return (
-    <>
-      <Typography variant="body2">
-        {`Choose Armor for ${t(`zones.${zone}`)}: ${zoneArmor} / ${maxArmor}`}
-      </Typography>
-      <Slider
-        value={armor.armorValue[zone]}
-        min={0}
-        max={maxArmor}
-        onChange={frontSlideHandler}
-        sx={{ width: 300 }}
-        aria-label={`Front armor slider for ${zone}`}
-      />
-      <Typography variant="body2">
-        {`Choose Armor for ${t(
-          `zones.${rearzone}`
-        )}: ${zoneArmor} / ${maxArmor}`}
-      </Typography>
-      <Slider
-        value={armor.armorValue[rearzone]}
-        min={0}
-        max={maxArmor}
-        onChange={rearSlideHandler}
-        sx={{ width: 300 }}
-        aria-label={`Rear armor slider for ${rearzone}`}
-      />
-    </>
+    <Stack spacing={3}>
+      <Stack>
+        <Typography variant="body2">
+          {`Choose Armor for ${t(`zones.${zone}`)}: ${zoneArmor} / ${maxArmor}`}
+        </Typography>
+        <Slider
+          value={armor.armorValue[zone]}
+          min={0}
+          max={maxArmor}
+          onChange={frontSlideHandler}
+          aria-label={`Front armor slider for ${zone}`}
+          marks={[...Array(maxArmor + 1)].map((_, i) => ({
+            value: i,
+            label: i,
+          }))}
+        />
+      </Stack>
+      <Stack>
+        <Typography variant="body2">
+          {`Choose Armor for ${t(
+            `zones.${rearzone}`
+          )}: ${zoneArmor} / ${maxArmor}`}
+        </Typography>
+        <Slider
+          value={armor.armorValue[rearzone]}
+          min={0}
+          max={maxArmor}
+          onChange={rearSlideHandler}
+          aria-label={`Rear armor slider for ${rearzone}`}
+          marks={[...Array(maxArmor + 1)].map((_, i) => ({
+            value: i,
+            label: i,
+          }))}
+        />
+      </Stack>
+    </Stack>
   );
 };
 

@@ -3,16 +3,46 @@ import { mechActions } from "../../store/mech-slice";
 import ShowEquipment from "./ShowEquipment";
 import getFreeSlots from "../../util/getFreeSlots";
 import AdvancedRemoveHand from "../Advanced-Builder/AdvancedRemoveHand";
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useState } from "react";
+import {
+  Paper,
+  useTheme,
+  Typography,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  IconButton,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Collapse,
+  Button,
+  Box,
+} from "@mui/material";
+import { StyledSecondaryContentWrapper } from "./CreateMechform.styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronDown,
+  faChevronUp,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 
 const InstallEquipment = () => {
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const equipment = useSelector((state) => state.mech.equipment);
   const zones = useSelector((state) => state.mech.zones);
   const chassisType = useSelector((state) => state.mech.chassisType);
   const armorType = useSelector((state) => state.mech.armor.armorType);
   const advancedOptions = useSelector((state) => state.ui.advancedOptions);
+
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleExpanded = () => setExpanded((prev) => !prev);
 
   const { unInstalledEquipment, unInstalledWeapons, installedWeapons } =
     useMemo(() => {
@@ -107,7 +137,7 @@ const InstallEquipment = () => {
 
   const handleZoneSelect = useCallback(
     (event) => {
-      const equipId = event.target.id;
+      const equipId = event.target.name;
       const equipToZone = event.target.value;
       if (equipToZone.includes("/")) {
         dispatch(
@@ -151,118 +181,215 @@ const InstallEquipment = () => {
   );
 
   return (
-    <div id="install-equipment" className="form-element">
-      {advancedOptions && chassisType === "Bipedal" && <AdvancedRemoveHand />}
-      <ShowEquipment />
+    <>
+      <Paper
+        id="install-equipment"
+        sx={{
+          border: `1.5px solid ${theme.palette.secondary.main}`,
+          borderRadius: "8px",
+          padding: "1.5rem",
+          marginTop: "1rem",
+        }}
+      >
+        <Box display="flex" justifyContent="space-between">
+          <Typography variant="h5" component="h3">
+            Equipment:
+          </Typography>
+          <IconButton variant="contained" onClick={toggleExpanded}>
+            <FontAwesomeIcon icon={expanded ? faChevronUp : faChevronDown} />
+          </IconButton>
+        </Box>
+        <Collapse in={expanded}>
+          {advancedOptions && chassisType === "Bipedal" && (
+            <AdvancedRemoveHand />
+          )}
+          <ShowEquipment />
+          {unInstalledEquipment.length > 0 && (
+            <StyledSecondaryContentWrapper id="uninstalled-equipment">
+              <Typography variant="h6" component="h3">
+                Installing chosen Weapon (zone)
+              </Typography>
+              <Table id="equipment-table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Weapons and Ammo</TableCell>
+                    <TableCell>Location</TableCell>
+                    <TableCell>Critical</TableCell>
+                    <TableCell>Tonnage</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {unInstalledEquipment.map((equipment) => (
+                    <TableRow key={equipment.id}>
+                      <TableCell>{equipment.name}</TableCell>
+                      <TableCell>
+                        <FormControl sx={{ width: "150px" }}>
+                          <InputLabel
+                            size="small"
+                            id="equipment-choose-zone"
+                            sx={{
+                              color: `${theme.palette.secondary.main} !important`,
+                            }}
+                          >
+                            Choose zone
+                          </InputLabel>
+                          <Select
+                            labelId="equipment-choose-zone"
+                            id={equipment.id}
+                            name={equipment.id}
+                            onChange={handleZoneSelect}
+                            label="Choose zone"
+                            size="small"
+                            value={equipment.zone}
+                            sx={{
+                              width: "150px",
+                              color: theme.palette.secondary.main,
+                              ".MuiOutlinedInput-notchedOutline": {
+                                borderColor: theme.palette.secondary.main,
+                              },
+                              "&:hover .MuiOutlinedInput-notchedOutline": {
+                                borderColor: theme.palette.secondary.dark,
+                              },
+                              "&.Mui-focused .MuiOutlinedInput-notchedOutline":
+                                {
+                                  borderColor: theme.palette.secondary.main,
+                                },
+                            }}
+                          >
+                            <MenuItem value="">n/a</MenuItem>
+                            {getZonesWithFreeSlots(equipment.critical).map(
+                              (zone) =>
+                                isZoneIllegalForEquip(
+                                  zone,
+                                  equipment
+                                ) ? null : (
+                                  <MenuItem key={zone} value={zone}>
+                                    {zone}
+                                  </MenuItem>
+                                )
+                            )}
+                          </Select>
+                        </FormControl>
+                      </TableCell>
+                      <TableCell>{equipment.critical}</TableCell>
+                      <TableCell>{equipment.tons}</TableCell>
+                      <TableCell>
+                        {checkIsUninstallAllowed(equipment) && (
+                          <IconButton
+                            onClick={() => handleRemoveEquipment(equipment)}
+                            size="small"
+                            color="error"
+                          >
+                            <FontAwesomeIcon icon={faTrashCan} />
+                          </IconButton>
+                        )}
+                        {equipment.splitZones && (
+                          <FormControl>
+                            <InputLabel
+                              id="equipment-splitzone"
+                              htmlFor={equipment.name}
+                            >
+                              {equipment.splitZones[0] +
+                                "/" +
+                                equipment.splitZones[1]}
+                            </InputLabel>
+                            <Select
+                              labelId="equipment-splitzone"
+                              id={equipment.name}
+                              name={equipment.name}
+                              onChange={(e) => {
+                                const [left, right] = e.target.value
+                                  .split("/")
+                                  .map(Number);
+                                handleSplitZones(equipment, left, right);
+                              }}
+                            >
+                              {Array.from(
+                                { length: equipment.critical - 1 },
+                                (_, i) => {
+                                  const left = i + 1;
+                                  const right = equipment.critical - left;
+                                  const free = getFreeSlots(zones);
+                                  const maxLeft = free[equipment.splitZones[0]];
+                                  const maxRight =
+                                    free[equipment.splitZones[1]];
+                                  if (left > maxLeft || right > maxRight)
+                                    return null;
+                                  return (
+                                    <option
+                                      key={`${left}/${right}`}
+                                      value={`${left}/${right}`}
+                                    >
+                                      {left}/{right}
+                                    </option>
+                                  );
+                                }
+                              )}
+                            </Select>
+                          </FormControl>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </StyledSecondaryContentWrapper>
+          )}
+          {installedWeapons.length > 0 && (
+            <StyledSecondaryContentWrapper>
+              <Typography
+                variant="h6"
+                component="h4"
+                sx={{ marginBottom: "1rem" }}
+              >
+                Uninstall Weapon (zone)
+              </Typography>
 
-      {installedWeapons.length > 0 && (
-        <div>
-          <label htmlFor="uninstall-weapon">uninstall Weapon: </label>
-          <select
-            name="uninstall-weapon"
-            id="uninstall-weapon"
-            onChange={handleUnInstallSelect}
-          >
-            <option value="">choose a weapon</option>
-            {installedWeapons.map((weapon) => (
-              <option key={weapon.name + weapon.id} value={weapon.id}>
-                {weapon.name} ({weapon.location})
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {unInstalledEquipment.length > 0 && (
-        <div id="uninstalled-equipment">
-          <h3>Installing Equipment</h3>
-
-          <table id="equipment-table">
-            <thead>
-              <tr>
-                <th>Weapons and Ammo</th>
-                <th>Location</th>
-                <th>Critical</th>
-                <th>Tonnage</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {unInstalledEquipment.map((equipment) => (
-                <tr key={equipment.id}>
-                  <td>{equipment.name}</td>
-                  <td>
-                    <select
-                      id={equipment.id}
-                      name={equipment.id}
-                      onChange={handleZoneSelect}
-                    >
-                      <option defaultValue>n/a</option>
-                      {getZonesWithFreeSlots(equipment.critical).map((zone) =>
-                        isZoneIllegalForEquip(zone, equipment) ? null : (
-                          <option key={zone} value={zone}>
-                            {zone}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </td>
-                  <td>{equipment.critical}</td>
-                  <td>{equipment.tons}</td>
-                  <td>
-                    {checkIsUninstallAllowed(equipment) && (
-                      <button onClick={() => handleRemoveEquipment(equipment)}>
-                        X
-                      </button>
-                    )}
-                    {equipment.splitZones && (
-                      <>
-                        <label htmlFor={equipment.name}>
-                          {equipment.splitZones[0] +
-                            "/" +
-                            equipment.splitZones[1]}
-                        </label>
-                        <select
-                          id={equipment.name}
-                          name={equipment.name}
-                          onChange={(e) => {
-                            const [left, right] = e.target.value
-                              .split("/")
-                              .map(Number);
-                            handleSplitZones(equipment, left, right);
-                          }}
-                        >
-                          {Array.from(
-                            { length: equipment.critical - 1 },
-                            (_, i) => {
-                              const left = i + 1;
-                              const right = equipment.critical - left;
-                              const free = getFreeSlots(zones);
-                              const maxLeft = free[equipment.splitZones[0]];
-                              const maxRight = free[equipment.splitZones[1]];
-                              if (left > maxLeft || right > maxRight)
-                                return null;
-                              return (
-                                <option
-                                  key={`${left}/${right}`}
-                                  value={`${left}/${right}`}
-                                >
-                                  {left}/{right}
-                                </option>
-                              );
-                            }
-                          )}
-                        </select>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
+              <FormControl>
+                <InputLabel
+                  id="equipment-uninstall-weapon"
+                  sx={{
+                    color: `${theme.palette.secondary.main} !important`,
+                  }}
+                >
+                  Choose a weapon
+                </InputLabel>
+                <Select
+                  labelId="equipment-uninstall-weapon"
+                  id={equipment.id}
+                  name={equipment.id}
+                  onChange={handleUnInstallSelect}
+                  label="Choose a weapon"
+                  value={equipment.zone}
+                  sx={{
+                    color: theme.palette.secondary.main,
+                    ".MuiOutlinedInput-notchedOutline": {
+                      borderColor: theme.palette.secondary.main,
+                    },
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: theme.palette.secondary.dark,
+                    },
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: theme.palette.secondary.main,
+                    },
+                  }}
+                >
+                  {installedWeapons.map((weapon) => (
+                    <MenuItem key={weapon.name + weapon.id} value={weapon.id}>
+                      {weapon.name} ({weapon.location})
+                    </MenuItem>
+                  ))}
+                </Select>
+                <Typography variant="body2" sx={{ marginTop: "0.5rem" }}>
+                  Uninstalled weapons can be installed again.
+                </Typography>
+              </FormControl>
+            </StyledSecondaryContentWrapper>
+          )}
+        </Collapse>
+      </Paper>
+    </>
   );
 };
 

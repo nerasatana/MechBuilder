@@ -7,11 +7,12 @@ import {
   Checkbox,
   Grid,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { useCallback } from "react";
 import { mechActions } from "../../store/mech-slice";
 import { tooltips } from "../constants/tooltips.tsx";
-import { StyledContentWrapper } from "../Builder/CreateMechform.styles.tsx";
+import { StyledSecondaryContentWrapper } from "../Builder/CreateMechform.styles.tsx";
 
 const AdvancedRemoveHand = () => {
   const dispatch = useDispatch();
@@ -30,13 +31,16 @@ const AdvancedRemoveHand = () => {
   );
 
   return (
-    <StyledContentWrapper>
+    <StyledSecondaryContentWrapper>
+      <Typography variant="h6" component="h4" sx={{ marginBottom: "1rem" }}>
+        Uninstall Arm Actuators
+      </Typography>
       <Grid container spacing={2}>
         <Grid>
           <FormControl component="fieldset" variant="standard">
             <FormGroup>
-              <FormLabel component="legend" sx={{ color: "#ffa726" }}>
-                Uninstall Right Arm Actuators
+              <FormLabel component="legend" color="secondary">
+                <Typography>Uninstall Right Arm Actuators</Typography>
               </FormLabel>
               <FormControlLabel
                 control={
@@ -50,6 +54,7 @@ const AdvancedRemoveHand = () => {
                       onChange={() =>
                         handleActuatorChange("rarm", "Hand Actuator")
                       }
+                      color="secondary"
                     />
                   </Tooltip>
                 }
@@ -64,6 +69,7 @@ const AdvancedRemoveHand = () => {
                       onChange={() =>
                         handleActuatorChange("rarm", "Lower Arm Actuator")
                       }
+                      color="secondary"
                     />
                   </Tooltip>
                 }
@@ -75,8 +81,8 @@ const AdvancedRemoveHand = () => {
         <Grid>
           <FormControl component="fieldset" variant="standard">
             <FormGroup>
-              <FormLabel component="legend" sx={{ color: "#ffa726" }}>
-                Uninstall Left Arm Actuators
+              <FormLabel component="legend" color="secondary">
+                <Typography>Uninstall Left Arm Actuators</Typography>
               </FormLabel>
               <FormControlLabel
                 control={
@@ -90,6 +96,7 @@ const AdvancedRemoveHand = () => {
                       onChange={() =>
                         handleActuatorChange("larm", "Hand Actuator")
                       }
+                      color="secondary"
                     />
                   </Tooltip>
                 }
@@ -104,6 +111,7 @@ const AdvancedRemoveHand = () => {
                       onChange={() =>
                         handleActuatorChange("larm", "Lower Arm Actuator")
                       }
+                      color="secondary"
                     />
                   </Tooltip>
                 }
@@ -113,7 +121,7 @@ const AdvancedRemoveHand = () => {
           </FormControl>
         </Grid>
       </Grid>
-    </StyledContentWrapper>
+    </StyledSecondaryContentWrapper>
   );
 };
 

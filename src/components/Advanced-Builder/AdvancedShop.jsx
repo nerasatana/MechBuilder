@@ -2,11 +2,21 @@ import { useSelector } from "react-redux";
 import { useState, useMemo } from "react";
 
 import ShopItem from "../Builder/ShopItem";
-import AdvancedShopCategory from "./AdvancedShopCategory";
+import {
+  Button,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  useTheme,
+} from "@mui/material";
 
 const AdvancedShop = ({ equipmentList }) => {
   const tonnage = useSelector((state) => state.mech.tonnage);
   const criticalSlots = useSelector((state) => state.mech.criticalSlots);
+  const theme = useTheme();
 
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -47,37 +57,62 @@ const AdvancedShop = ({ equipmentList }) => {
       : adjustedEquipment;
   }, [adjustedEquipment, selectedCategory]);
 
+  const groupedByCategory = categoriesList.reduce((acc, category) => {
+    acc[category] = equipmentList.filter((item) => item.category === category);
+    return acc;
+  }, {});
+
   return (
     <>
-      <div id="shop-categories">
-        {categoriesList.map((category) => (
-          <AdvancedShopCategory
-            key={category}
-            category={category}
-            handleCategory={() => setSelectedCategory(category)}
-          />
-        ))}
-        {selectedCategory && (
-          <button onClick={() => setSelectedCategory(null)}>Show All</button>
-        )}
-      </div>
-      <table id="shop-table">
-        <thead>
-          <tr>
-            <th>Weapon</th>
-            <th>Tons</th>
-            <th>Critical</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Stack spacing={2} id="shop-categories" useFlexGap>
+        <Button
+          variant={selectedCategory ? "outlined" : "contained"}
+          onClick={() => setSelectedCategory(null)}
+          sx={{ width: "fit-content", margin: "0.25rem" }}
+        >
+          Show All ({equipmentList.length})
+        </Button>
+        <Stack
+          direction="row"
+          flexWrap="wrap"
+          useFlexGap
+          sx={{ paddingRight: "1rem" }}
+        >
+          {categoriesList.map((category) => (
+            <Button
+              size="small"
+              color="secondary"
+              variant={selectedCategory === category ? "contained" : "outlined"}
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              sx={{ margin: "0.25rem" }}
+            >
+              {category} ({groupedByCategory[category]?.length || 0})
+            </Button>
+          ))}
+        </Stack>
+      </Stack>
+      <Table id="shop-table">
+        <TableHead
+          sx={{
+            "& .MuiTableCell-head": { color: theme.palette.primary.main },
+          }}
+        >
+          <TableRow>
+            <TableCell>Weapon</TableCell>
+            <TableCell>Tons</TableCell>
+            <TableCell>Critical</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {filteredList.map((item) =>
             item.critical <= criticalSlots ? (
               <ShopItem item={item} key={item.name} />
             ) : null
           )}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </>
   );
 };

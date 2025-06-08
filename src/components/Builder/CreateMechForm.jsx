@@ -34,8 +34,8 @@ const CreateMechForm = () => {
             {mech.movement.walking > 0 && <JumpJets />}
             <HeatSinks />
             <Armor />
-            <InstallEquipment />
             <ShopEquipment />
+            <InstallEquipment />
           </div>
         )}
       </form>

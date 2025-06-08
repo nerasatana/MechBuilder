@@ -35,8 +35,6 @@ const Armor = () => {
 
   const maxArmor = armor.internal.maxarmor;
 
-  const stepSize = 8 * armor.armorBasePointsMultiplier;
-
   const armorOptionsStandard = useMemo(() => {
     const options = [];
     const maxPoints = Math.round(
@@ -51,10 +49,6 @@ const Armor = () => {
     options.push({ tons: maxPoints * 0.5, value: maxArmor });
     return options;
   }, [maxArmor, armor.armorBasePointsMultiplier]);
-
-  const handleArmorSlider = (e) => {
-    dispatch(mechActions.addArmor(Number(e.target.value)));
-  };
 
   const handleArmorSelect = (e) => {
     dispatch(mechActions.addArmor(Number(e.target.value)));
@@ -180,16 +174,6 @@ const Armor = () => {
         </Button>
         {armorVisible && (
           <Stack spacing={2}>
-            <Typography>Choose Armor by Points:</Typography>
-            <Slider
-              min={0}
-              max={maxArmor}
-              step={stepSize}
-              value={armor.armorFactor}
-              onChange={handleArmorSlider}
-              aria-label="Armor Points"
-              valueLabelDisplay="auto"
-            />
             <Typography>Maximum available Armor: {maxArmor}</Typography>
             <FormControl>
               <InputLabel id="armor-tons-select-label">
